@@ -14,16 +14,18 @@ public class TaxCalculatorAfterFirstYearForExpensiveVehiclesTest {
 
     private static final LocalDate FIRST_OF_APRIL_2017 = LocalDate.of(2017, APRIL, 1);
     private TaxCalculator taxCalculator;
+    private FeatureToggle featureToggle;
 
     @Before
     public void setUp() {
-        taxCalculator = new TaxCalculatorImpl(2019, true);
+        taxCalculator = new TaxCalculatorImpl(2019);
+        featureToggle = new FeatureToggle(true);
     }
 
     @Test
     public void subsequentYearsTaxForPetrolIfOver40K() {
         Vehicle vehicle = new Vehicle(206, PETROL, FIRST_OF_APRIL_2017, 50000);
-        assertThat(taxCalculator.calculateTax(vehicle)).isEqualTo(450);
+        assertThat(taxCalculator.calculateTax(vehicle, featureToggle)).isEqualTo(450);
     }
 
     @Test

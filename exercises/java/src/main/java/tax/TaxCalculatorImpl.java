@@ -3,34 +3,17 @@ package tax;
 
 public class TaxCalculatorImpl extends TaxCalculator {
 
-    private boolean expensiveVehicleCalculatorFeatureToggle;
 
     public TaxCalculatorImpl(int year) {
         super(year);
     }
 
-    public TaxCalculatorImpl(int year, boolean expensiveVehicleCalculatorFeatureToggle) {
-        super(year);
-        this.expensiveVehicleCalculatorFeatureToggle = expensiveVehicleCalculatorFeatureToggle;
-    }
 
     @Override
     int calculateTax(Vehicle vehicle) {
          int tax = 0;
          int co2Emission = vehicle.getCo2Emissions();
-         String fuelType = vehicle.getFuelType().toString();
 
-        if(expensiveVehicleCalculatorFeatureToggle) {
-            if((this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) > 1 && vehicle.getListPrice() > 40000) {
-                if(fuelType.equals(FuelType.PETROL.toString())) {
-                    tax = 450;
-                } else if (fuelType.equals(FuelType.ELECTRIC.toString())) {
-                    tax = 310;
-                } else if (fuelType.equals(FuelType.ALTERNATIVE_FUEL.toString())) {
-                    tax = 440;
-                }
-            }
-        } else {
             if(vehicle.getFuelType().equals(FuelType.PETROL)) {
                 if (co2Emission == 0) { return tax; }
                 else if (co2Emission <= 50) { tax = 10; }
@@ -60,9 +43,28 @@ public class TaxCalculatorImpl extends TaxCalculator {
                 else if (co2Emission <= 225) { tax = 1760; }
                 else { tax = 2070; }
             }
-        }
 
         return tax;
     }
 
+    int calculateTax(Vehicle vehicle, FeatureToggle featureToggle) {
+        int tax = 0;
+        String fuelType = vehicle.getFuelType().toString();
+
+        if(featureToggle.isActive()) {
+            if((this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) > 1 && vehicle.getListPrice() > 40000) {
+                if(fuelType.equals(FuelType.PETROL.toString())) {
+                    tax = 450;
+                } else if (fuelType.equals(FuelType.ELECTRIC.toString())) {
+                    tax = 310;
+                } else if (fuelType.equals(FuelType.ALTERNATIVE_FUEL.toString())) {
+                    tax = 440;
+                }
+            }
+        } else {
+            tax = calculateTax(vehicle);
+        }
+
+        return tax;
+    }
 }
