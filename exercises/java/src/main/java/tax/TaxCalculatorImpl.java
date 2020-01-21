@@ -18,11 +18,16 @@ public class TaxCalculatorImpl extends TaxCalculator {
     int calculateTax(Vehicle vehicle) {
          int tax = 0;
          int co2Emission = vehicle.getCo2Emissions();
+         String fuelType = vehicle.getFuelType().toString();
 
         if(flag) {
             if((this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) > 1 && vehicle.getListPrice() > 40000) {
-                if(vehicle.getFuelType().equals(FuelType.PETROL)) {
+                if(fuelType.equals(FuelType.PETROL.toString())) {
                     tax = 450;
+                } else if (fuelType.equals(FuelType.ELECTRIC.toString())) {
+                    tax = 310;
+                } else if (fuelType.equals(FuelType.ALTERNATIVE_FUEL.toString())) {
+                    tax = 440;
                 }
             }
         } else {
