@@ -2,7 +2,7 @@ package tax;
 
 public class TaxCalculatorAlternative extends TaxCalculator{
 
-    @Override
+@Override
     int calculateTax(Vehicle vehicle) {
         int tax = 0;
         int co2Emission = vehicle.getCo2Emissions();
@@ -26,4 +26,9 @@ public class TaxCalculatorAlternative extends TaxCalculator{
         return 0;
     }
 
+
+ public Vehicle vehicle;
+    public TaxCalculatorAlternative(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
 }
