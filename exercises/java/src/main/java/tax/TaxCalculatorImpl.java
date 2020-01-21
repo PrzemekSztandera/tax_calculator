@@ -3,15 +3,15 @@ package tax;
 
 public class TaxCalculatorImpl extends TaxCalculator {
 
-    private boolean flag;
+    private boolean expensiveVehicleCalculatorFeatureToggle;
 
     public TaxCalculatorImpl(int year) {
         super(year);
     }
 
-    public TaxCalculatorImpl(int year, boolean flag) {
+    public TaxCalculatorImpl(int year, boolean expensiveVehicleCalculatorFeatureToggle) {
         super(year);
-        this.flag = flag;
+        this.expensiveVehicleCalculatorFeatureToggle = expensiveVehicleCalculatorFeatureToggle;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class TaxCalculatorImpl extends TaxCalculator {
          int co2Emission = vehicle.getCo2Emissions();
          String fuelType = vehicle.getFuelType().toString();
 
-        if(flag) {
+        if(expensiveVehicleCalculatorFeatureToggle) {
             if((this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) > 1 && vehicle.getListPrice() > 40000) {
                 if(fuelType.equals(FuelType.PETROL.toString())) {
                     tax = 450;
