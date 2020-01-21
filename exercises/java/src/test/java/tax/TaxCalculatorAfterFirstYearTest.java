@@ -13,12 +13,12 @@ import static tax.FuelType.*;
 
 public class TaxCalculatorAfterFirstYearTest {
 
-    private static final LocalDate FIRST_OF_APRIL_2017 = LocalDate.of(2019, APRIL, 1);
+    private static final LocalDate FIRST_OF_APRIL_2017 = LocalDate.of(2017, APRIL, 1);
     private TaxCalculator taxCalculator;
 
     @Before
     public void setUp() {
-        taxCalculator = new TaxCalculatorImpl(2019, true, false);;
+        taxCalculator = new TaxCalculatorImpl(2019, true, true);;
     }
 
     @Test

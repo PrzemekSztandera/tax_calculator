@@ -22,32 +22,61 @@ public class TaxCalculatorImpl extends TaxCalculator {
          int co2Emission = vehicle.getCo2Emissions();
          String fuelType = vehicle.getFuelType().toString();
 
-        if(expensiveVehicleCalculatorFeatureToggle) {
 
-            if((this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) > 1 && vehicle.getListPrice() > 40000) {
+            if((this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) >= 1){
 
-                if(fuelType.equals(FuelType.PETROL.toString())) {
-                    tax = 450;
-                } else if (fuelType.equals(FuelType.ELECTRIC.toString())) {
-                    tax = 310;
-                } else if (fuelType.equals(FuelType.ALTERNATIVE_FUEL.toString())) {
-                    tax = 440;
+                if(expensiveVehicleCalculatorFeatureToggle) {
+
+                    if(vehicle.getListPrice() > 40000) {
+
+                        if (fuelType.equals(FuelType.PETROL.toString())) {
+                            tax = 450;
+                        } else if (fuelType.equals(FuelType.ELECTRIC.toString())) {
+                            tax = 310;
+                        } else if (fuelType.equals(FuelType.ALTERNATIVE_FUEL.toString())) {
+                            tax = 440;
+                        }
+                    }
+
                 }
-            } else if(featureSwitchJS) {
 
-                if ( (this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) >= 1 && vehicle.getListPrice() < 40000) {
+                if(featureSwitchJS) {
 
-                    if (vehicle.getFuelType().equals("Diesel") || vehicle.getFuelType().equals("Petrol")) {
+                    if (fuelType.equals(FuelType.DIESEL.toString()) || fuelType.equals(FuelType.PETROL.toString())) {
                         tax = 140;
-                    } else if (vehicle.getFuelType().equals("Alternative")) {
+                    } else if (fuelType.equals(FuelType.ALTERNATIVE_FUEL.toString())) {
                         tax = 130;
-                    } else if (vehicle.getFuelType().equals("Electric")) {
+                    } else if (fuelType.equals(FuelType.ELECTRIC.toString())) {
                         tax = 0;
                     }
                 }
+
             }
 
-        } else {
+//            if((this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) > 1 && vehicle.getListPrice() > 40000) {
+//
+//                if(fuelType.equals(FuelType.PETROL.toString())) {
+//                    tax = 450;
+//                } else if (fuelType.equals(FuelType.ELECTRIC.toString())) {
+//                    tax = 310;
+//                } else if (fuelType.equals(FuelType.ALTERNATIVE_FUEL.toString())) {
+//                    tax = 440;
+//                }
+//            } else if(featureSwitchJS) {
+//
+//                if ( (this.getYear() - vehicle.getDateOfFirstRegistration().getYear()) >= 1 && vehicle.getListPrice() < 40000) {
+//
+//                    if (vehicle.getFuelType().equals("Diesel") || vehicle.getFuelType().equals("Petrol")) {
+//                        tax = 140;
+//                    } else if (vehicle.getFuelType().equals("Alternative")) {
+//                        tax = 130;
+//                    } else if (vehicle.getFuelType().equals("Electric")) {
+//                        tax = 0;
+//                    }
+//                }
+//            }
+
+         else {
             if(vehicle.getFuelType().equals(FuelType.PETROL)) {
                 if (co2Emission == 0) { return tax; }
                 else if (co2Emission <= 50) { tax = 10; }
@@ -80,4 +109,5 @@ public class TaxCalculatorImpl extends TaxCalculator {
         }
         return tax;
     }
+
 }
